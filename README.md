@@ -1,66 +1,53 @@
 ```python
 # IMPLEMENTATION-OF-VARIOUS-OPERATIONS-ON-BINARY-TREE.
 class Node:
-    def __init__(self, data):
-        self.data = data
+    def __init__(self, key):
         self.left = None
         self.right = None
+        self.value = key
 class BinaryTree:
-    def __init__(self):
-        self.root = None
-    def insert(self, data):
-        if self.root is None:
-            self.root = Node(data)
+    def __init__(self, root_value):
+        self.root = Node(root_value)
+    def insert_left(self, current_node, key):
+        if current_node.left is None:
+            current_node.left = Node(key)
         else:
-            self._insert(data, self.root)
-    def _insert(self, data, node):
-        if data < node.data:
-            if node.left is None:
-                node.left = Node(data)
-            else:
-                self._insert(data, node.left)
+            new_node = Node(key)
+            new_node.left = current_node.left
+            current_node.left = new_node
+    def insert_right(self, current_node, key):
+        if current_node.right is None:
+            current_node.right = Node(key)
         else:
-            if node.right is None:
-                node.right = Node(data)
-            else:
-                self._insert(data, node.right)
-    def inorder(self):
-        if self.root is not None:
-            self._inorder(self.root)
-    def _inorder(self, node):
-        if node is not None:
-            self._inorder(node.left)
-            print(node.data, end=' ')
-            self._inorder(node.right)
-    def preorder(self):
-        if self.root is not None:
-            self._preorder(self.root)
-    def _preorder(self, node):
-        if node is not None:
-            print(node.data, end=' ')
-            self._preorder(node.left)
-            self._preorder(node.right)
-    def postorder(self):
-        if self.root is not None:
-            self._postorder(self.root)
-    def _postorder(self, node):
-        if node is not None:
-            self._postorder(node.left)
-            self._postorder(node.right)
-            print(node.data, end=' ')
-tree = BinaryTree()
-tree.insert(8)
-tree.insert(3)
-tree.insert(10)
-tree.insert(1)
-tree.insert(6)
-tree.insert(14)
-tree.insert(4)
-tree.insert(7)
-tree.insert(13)
-print("Inorder traversal:")
-tree.inorder() 
-print("\nPreorder traversal:")
-tree.preorder() 
-print("\nPostorder traversal:")
-tree.postorder() 
+            new_node = Node(key)
+            new_node.right = current_node.right
+            current_node.right = new_node
+    def inorder(self, node):
+        if node:
+            self.inorder(node.left)
+            print(node.value, end=" ")
+            self.inorder(node.right)
+    def preorder(self, node):
+        if node:
+            print(node.value, end=" ")
+            self.preorder(node.left)
+            self.preorder(node.right)
+    def postorder(self, node):
+        if node:
+            self.postorder(node.left)
+            self.postorder(node.right)
+            print(node.value, end=" ")
+if __name__ == "__main__":
+    # Create tree with root
+    tree = BinaryTree('A')
+    tree.insert_left(tree.root, 'B')
+    tree.insert_right(tree.root, 'C')
+    tree.insert_left(tree.root.left, 'D')
+    tree.insert_right(tree.root.left, 'E')
+    tree.insert_left(tree.root.right, 'F')
+    print("Inorder Traversal:")
+    tree.inorder(tree.root)
+    print("\nPreorder Traversal:")
+    tree.preorder(tree.root)
+    print("\nPostorder Traversal:")
+    tree.postorder(tree.root)
